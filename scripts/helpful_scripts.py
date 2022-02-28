@@ -1,14 +1,18 @@
 from brownie import network, config, accounts, MockV3Aggregator
 from web3 import Web3
 
+LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["development", "ganache-local"]
 DECIMALS = 18
 STARTING_PRICE = 200000000000
 
 
 def get_account():
-    if network.show_active() == "development":
+    # Wenn Netzwerk dev, dann nimm einen dev key
+    if network.show_active() in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
         return accounts[0]
+    # ansonsten nimm den account von lokal.
     else:
+
         return accounts.add(config["wallets"]["from_key"])
 
 
